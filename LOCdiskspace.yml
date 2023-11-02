@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - name: Disk usage
+      command: df -h
+      register: space
+    - name: Print Disk Space
+      debug:
+        msg: "{{space.stdout_lines}}"
