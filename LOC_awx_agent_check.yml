@@ -1,0 +1,14 @@
+- name: Check and start Awx service
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Check if the service is running
+      systemd:
+        name: awx
+        state: started
+      register: service_status
+      ignore_errors: yes
+
+    - name: Start the service if it's not running
+      command: systemctl start awx
+      when: service_status.failed
