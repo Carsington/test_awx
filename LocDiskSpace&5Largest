@@ -1,0 +1,24 @@
+- name: Check Disk Space and Find 5 Largest Files
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Get Disk Space Facts
+      ansible.builtin.shell: df -h
+      register: disk_space
+
+    - name: Display Disk Space
+      ansible.builtin.debug:
+        var: disk_space.stdout_lines
+
+    - name: Find 5 Largest Files
+      ansible.builtin.find:
+        paths: "/"
+        patterns: "*"
+        recurse: true
+        size: "5G"  # adjust the size according to your needs
+      register: largest_files
+
+    - name: Display 5 Largest Files
+      ansible.builtin.debug:
+        var: largest_files.files | sort(attribute='size_bytes') | last(5)
