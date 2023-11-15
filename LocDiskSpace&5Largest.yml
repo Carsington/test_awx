@@ -16,9 +16,10 @@
         paths: "/"
         patterns: "*"
         recurse: true
-        size: "5G"  # adjust the size according to your needs
+        size: "1G"  # adjust the size according to your needs
       register: largest_files
 
     - name: Display 5 Largest Files
       ansible.builtin.debug:
-        var: largest_files.files | sort(attribute='size_bytes')
+        msg: "{{ item.path }} - {{ item.size }}"
+      loop: "{{ sorted_files | last(5) }}"
