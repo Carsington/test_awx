@@ -19,7 +19,10 @@
         size: "1G"  # adjust the size according to your needs
       register: largest_files
 
+    - name: Sort Files by Size
+      set_fact:
+        sorted_files: "{{ largest_files.files | sort(attribute='size_bytes') }}"
+
     - name: Display 5 Largest Files
       ansible.builtin.debug:
-        msg: "{{ item.path }} - {{ item.size }}"
-      loop: "{{ sorted_files | last(5) }}"
+        msg: "{{ sorted_files[-5:] }}"
