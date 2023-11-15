@@ -21,4 +21,4 @@
 
     - name: Display 5 Largest Files
       ansible.builtin.debug:
-        var: largest_files.files | sort(attribute='size_bytes') | last(5)
+        var: largest_files.files | sort(attribute='size_bytes')
